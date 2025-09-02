@@ -45,10 +45,13 @@
 
 2. **Check if it works:**
    - Wait for the action to complete
-   - Check if `public/cached-data/locations-cache.json` was updated
-   - Verify the raw URL works:
+   - Check if both cache files were updated:
+     - `public/cached-data/locations-cache.json` (locations & config data)
+     - `public/cached-data/locations-sectors-cache.json` (all sector data)
+   - Verify the raw URLs work:
      ```
      https://raw.githubusercontent.com/dealroom-caching/locations-table-data/main/public/cached-data/locations-cache.json
+     https://raw.githubusercontent.com/dealroom-caching/locations-table-data/main/public/cached-data/locations-sectors-cache.json
      ```
 
 ## Step 4: Verify with Your App
@@ -64,7 +67,8 @@ Once the GitHub repo is set up and the raw URL is working, your main application
 - `package.json` - Node.js project configuration
 - `fetch-cache-data.js` - Script to fetch data from Google Sheets
 - `.github/workflows/refresh-cache.yml` - GitHub Action workflow
-- `public/cached-data/locations-cache.json` - Initial cache file
+- `public/cached-data/locations-cache.json` - Locations and config cache file
+- `public/cached-data/locations-sectors-cache.json` - Locations sectors data cache file
 - `.gitignore` - Git ignore rules
 - `README.md` - Repository documentation
 

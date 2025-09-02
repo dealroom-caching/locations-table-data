@@ -117,36 +117,47 @@ async function main() {
       }
     });
     
-    // Save to cache file with enhanced structure
-    const cacheData = {
-      timestamp: new Date().toISOString(),
-      lastUpdated: new Date().toISOString(),
+    const timestamp = new Date().toISOString();
+    
+    // Create locations/config cache file
+    const locationsCache = {
+      timestamp: timestamp,
+      lastUpdated: timestamp,
       metadata: {
-        totalSheets: ALL_SHEET_CONFIGS.length,
-        configSheets: CONFIG_SHEETS.length,
-        sectorSheets: SECTOR_CONFIGS.length,
+        totalSheets: CONFIG_SHEETS.length,
+        sheets: CONFIG_SHEETS.map(s => s.name),
+        spreadsheetId: SHEET_ID
+      },
+      data: configData
+    };
+    
+    // Create sectors cache file
+    const sectorsCache = {
+      timestamp: timestamp,
+      lastUpdated: timestamp,
+      metadata: {
+        totalSheets: SECTOR_CONFIGS.length,
         sectors: Object.keys(sectorData),
         spreadsheetId: SHEET_ID
       },
-      data: {
-        config: configData,
-        sectors: sectorData,
-        raw: allData // Keep raw data for backward compatibility
-      }
+      data: sectorData
     };
     
-    // Save as locations-cache.json (with timestamp structure)
-    const cacheFile = path.join(cacheDir, 'locations-cache.json');
+    // Save both cache files
+    const locationsFile = path.join(cacheDir, 'locations-cache.json');
+    const sectorsFile = path.join(cacheDir, 'locations-sectors-cache.json');
     
-    fs.writeFileSync(cacheFile, JSON.stringify(cacheData, null, 2));
+    fs.writeFileSync(locationsFile, JSON.stringify(locationsCache, null, 2));
+    fs.writeFileSync(sectorsFile, JSON.stringify(sectorsCache, null, 2));
     
     console.log(`✅ Cache updated successfully!`);
-    console.log(`📁 Cache file: ${cacheFile}`);
-    console.log(`📊 Total sheets cached: ${cacheData.metadata.totalSheets}`);
-    console.log(`   - Configuration sheets: ${cacheData.metadata.configSheets}`);
-    console.log(`   - Sector data sheets: ${cacheData.metadata.sectorSheets}`);
-    console.log(`🏷️  Sectors included: ${cacheData.metadata.sectors.join(', ')}`);
-    console.log(`🕒 Timestamp: ${cacheData.timestamp}`);
+    console.log(`📁 Locations cache: ${locationsFile}`);
+    console.log(`📁 Locations-sectors cache: ${sectorsFile}`);
+    console.log(`📊 Total sheets cached: ${ALL_SHEET_CONFIGS.length}`);
+    console.log(`   - Configuration sheets: ${CONFIG_SHEETS.length} (${CONFIG_SHEETS.map(s => s.name).join(', ')})`);
+    console.log(`   - Sector data sheets: ${SECTOR_CONFIGS.length}`);
+    console.log(`🏷️  Sectors included: ${Object.keys(sectorData).join(', ')}`);
+    console.log(`🕒 Timestamp: ${timestamp}`);
     
   } catch (error) {
     console.error('❌ Cache update failed:', error);
