@@ -4,7 +4,7 @@ This repository contains automatically updated cache data for locations table ap
 
 ## How it works
 
-1. **GitHub Action** runs daily at 2 AM UTC
+1. **GitHub Action** runs every 6h
 2. **Fetches fresh data** from Google Sheets
 3. **Updates cache files** in `public/cached-data/`
 4. **Commits changes** back to the repository

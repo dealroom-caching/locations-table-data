@@ -37,7 +37,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git add public/cached-data/
           if ! git diff --staged --quiet; then
-            git commit -m "🔄 Auto-update cached Google Sheets data [$(TZ=UTC date +'%Y-%m-%d %H:%M:%S UTC')]"
+            git commit -m "🔄 Auto-update locations cache data [$(TZ=UTC date +'%Y-%m-%d %H:%M:%S UTC')]"
             git push
           else
             echo "No cache changes to commit"

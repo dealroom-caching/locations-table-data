@@ -3,16 +3,42 @@ import path from 'path';
 
 // Note: Using built-in fetch API available in Node.js 18+
 // Google Sheets configuration
-const SHEET_ID = "1LutC2VxesrS-5Ym8VydVvgLh8stH66vY_Bor1g7lY2A";
+const SHEET_ID = "1Ewhi3YCL-dUWZ3YrHpsmWt4goza-5c1FbDyfDcw26lw";
 
-// Fetch sheets by GID (more reliable than names)
-const SHEET_CONFIGS = [
-  { name: "overview", gid: "109336614" },
-  { name: "yearly", gid: "1515439227" },
-  { name: "quarterly", gid: "966294539" },
-  { name: "enterpriseValue", gid: "350477002" },
-  { name: "regional", gid: "840041598" }
+// Configuration sheets
+const CONFIG_SHEETS = [
+  { name: "locations", gid: "880351439" },
+  { name: "config", gid: "940884547" }
 ];
+
+// Sector data sheets - mapping of sector slugs to their corresponding sheet GIDs
+const SECTOR_SHEET_GIDS = {
+  fintech: '99479904',        // Sector_Data_Fintech
+  defence: '392696859',
+  space: '1597782923',      
+  deeptech: '1185161894',
+  ai: '1352531442',
+  energy: '288774328',
+  lifesciences: '2015834289',
+  healthmedtech: '739796238',
+  cybersecurity: '1032292773',
+  robotics: '79509439',
+  transportation: '1908851490',
+  food: '1086569817',
+  semiconductors: '1161961483',
+  crypto: '445413038',
+  climatetech: '1625161302',
+  gaming: '698117399'
+};
+
+// Convert sector GIDs to sheet configs
+const SECTOR_CONFIGS = Object.entries(SECTOR_SHEET_GIDS).map(([name, gid]) => ({
+  name: `sector_${name}`,
+  gid: gid
+}));
+
+// All sheets to fetch
+const ALL_SHEET_CONFIGS = [...CONFIG_SHEETS, ...SECTOR_CONFIGS];
 
 async function fetchGoogleSheetData(sheetConfig) {
   const timestamp = Date.now();
@@ -62,7 +88,12 @@ async function main() {
     
     // Fetch all sheets using GIDs
     const allData = {};
-    for (const sheetConfig of SHEET_CONFIGS) {
+    
+    console.log(`📊 Fetching ${ALL_SHEET_CONFIGS.length} sheets total:`);
+    console.log(`   - ${CONFIG_SHEETS.length} configuration sheets`);
+    console.log(`   - ${SECTOR_CONFIGS.length} sector data sheets`);
+    
+    for (const sheetConfig of ALL_SHEET_CONFIGS) {
       try {
         allData[sheetConfig.name] = await fetchGoogleSheetData(sheetConfig);
         console.log(`✅ ${sheetConfig.name}: ${allData[sheetConfig.name].rows.length} rows`);
@@ -73,11 +104,35 @@ async function main() {
       }
     }
     
-    // Save to cache file with timestamp (React app expects this format)
+    // Organize data into logical groups
+    const configData = {};
+    const sectorData = {};
+    
+    Object.entries(allData).forEach(([key, value]) => {
+      if (key.startsWith('sector_')) {
+        const sectorName = key.replace('sector_', '');
+        sectorData[sectorName] = value;
+      } else {
+        configData[key] = value;
+      }
+    });
+    
+    // Save to cache file with enhanced structure
     const cacheData = {
       timestamp: new Date().toISOString(),
       lastUpdated: new Date().toISOString(),
-      data: allData
+      metadata: {
+        totalSheets: ALL_SHEET_CONFIGS.length,
+        configSheets: CONFIG_SHEETS.length,
+        sectorSheets: SECTOR_CONFIGS.length,
+        sectors: Object.keys(sectorData),
+        spreadsheetId: SHEET_ID
+      },
+      data: {
+        config: configData,
+        sectors: sectorData,
+        raw: allData // Keep raw data for backward compatibility
+      }
     };
     
     // Save as locations-cache.json (with timestamp structure)
@@ -87,7 +142,10 @@ async function main() {
     
     console.log(`✅ Cache updated successfully!`);
     console.log(`📁 Cache file: ${cacheFile}`);
-    console.log(`📊 Total sheets cached: ${Object.keys(allData).length}`);
+    console.log(`📊 Total sheets cached: ${cacheData.metadata.totalSheets}`);
+    console.log(`   - Configuration sheets: ${cacheData.metadata.configSheets}`);
+    console.log(`   - Sector data sheets: ${cacheData.metadata.sectorSheets}`);
+    console.log(`🏷️  Sectors included: ${cacheData.metadata.sectors.join(', ')}`);
     console.log(`🕒 Timestamp: ${cacheData.timestamp}`);
     
   } catch (error) {
