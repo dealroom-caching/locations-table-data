@@ -80,8 +80,8 @@ async function main() {
       data: allData
     };
     
-    // Save as sectors-cache.json (with timestamp structure)
-    const cacheFile = path.join(cacheDir, 'sectors-cache.json');
+    // Save as locations-cache.json (with timestamp structure)
+    const cacheFile = path.join(cacheDir, 'locations-cache.json');
     
     fs.writeFileSync(cacheFile, JSON.stringify(cacheData, null, 2));
     

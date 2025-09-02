@@ -1,16 +1,16 @@
 {
-  "name": "sectors-table-data",
+  "name": "locations-table-data",
   "version": "1.0.0",
-  "description": "Automated cache for sector table data from Google Sheets",
+  "description": "Automated cache for locations table data from Google Sheets",
   "type": "module",
   "scripts": {
     "fetch-cache-data": "node fetch-cache-data.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dealroom-caching/sectors-table-data.git"
+    "url": "git+https://github.com/dealroom-caching/locations-table-data.git"
   },
   "author": "Kjeld",
   "license": "MIT",
-  "homepage": "https://github.com/dealroom-caching/sectors-table-data#readme"
+  "homepage": "https://github.com/dealroom-caching/locations-table-data#readme"
 }

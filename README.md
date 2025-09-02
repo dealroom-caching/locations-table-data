@@ -1,6 +1,6 @@
-# Sector Table Data Cache
+# Locations Table Data Cache
 
-This repository contains automatically updated cache data for sector table applications.
+This repository contains automatically updated cache data for locations table applications.
 
 ## How it works
 
@@ -11,7 +11,7 @@ This repository contains automatically updated cache data for sector table appli
 
 ## Files
 
-- `investor-cache.json` - Main cache file used by the application
+- `locations-cache.json` - Main cache file used by the application
 - `fetch-cache-data.js` - Script to fetch and update cache data
 - `.github/workflows/refresh-cache.yml` - GitHub Action workflow
 
@@ -45,4 +45,4 @@ The cache contains data from Google Sheets with the following structure:
 ## Access
 
 The cache is publicly accessible via GitHub raw files:
-- `https://raw.githubusercontent.com/dealroom-caching/sectors-table-data/main/public/cached-data/investor-cache.json`
+- `https://raw.githubusercontent.com/dealroom-caching/locations-table-data/main/public/cached-data/locations-cache.json`

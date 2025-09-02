@@ -1,4 +1,4 @@
-# Setup Instructions for sectors-table-data Repository
+# Setup Instructions for locations-table-data Repository
 
 ## Step 1: Initialize the Repository
 
@@ -11,16 +11,16 @@
    ```bash
    git init
    git add .
-   git commit -m "Initial commit: Sector table data cache with automated updates"
+   git commit -m "Initial commit: Locations table data cache with automated updates"
    git branch -M main
-   git remote add origin https://github.com/dealroom-caching/sectors-table-data.git
+   git remote add origin https://github.com/dealroom-caching/locations-table-data.git
    git push -u origin main
    ```
 
 ## Step 2: Configure GitHub Repository
 
 1. **Make the repository public:**
-   - Go to https://github.com/dealroom-caching/sectors-table-data
+   - Go to https://github.com/dealroom-caching/locations-table-data
    - Click "Settings" tab
    - Scroll down to "Danger Zone"
    - Click "Change repository visibility"
@@ -45,10 +45,10 @@
 
 2. **Check if it works:**
    - Wait for the action to complete
-   - Check if `public/cached-data/sectors-cache.json` was updated
+   - Check if `public/cached-data/locations-cache.json` was updated
    - Verify the raw URL works:
      ```
-     https://raw.githubusercontent.com/dealroom-caching/sectors-table-data/main/public/cached-data/sectors-cache.json
+     https://raw.githubusercontent.com/dealroom-caching/locations-table-data/main/public/cached-data/locations-cache.json
      ```
 
 ## Step 4: Verify with Your App
@@ -64,7 +64,7 @@ Once the GitHub repo is set up and the raw URL is working, your main application
 - `package.json` - Node.js project configuration
 - `fetch-cache-data.js` - Script to fetch data from Google Sheets
 - `.github/workflows/refresh-cache.yml` - GitHub Action workflow
-- `public/cached-data/sectors-cache.json` - Initial cache file
+- `public/cached-data/locations-cache.json` - Initial cache file
 - `.gitignore` - Git ignore rules
 - `README.md` - Repository documentation
 
