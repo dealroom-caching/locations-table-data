@@ -42,7 +42,7 @@ const ALL_SHEET_CONFIGS = [...CONFIG_SHEETS, ...SECTOR_CONFIGS];
 
 async function fetchGoogleSheetData(sheetConfig) {
   const timestamp = Date.now();
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${sheetConfig.gid}&range=A1:BH1048576&headers=1&timestamp=${timestamp}`;
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${sheetConfig.gid}&headers=1&timestamp=${timestamp}`;
   
   console.log(`Fetching ${sheetConfig.name} (GID: ${sheetConfig.gid})...`);
   
